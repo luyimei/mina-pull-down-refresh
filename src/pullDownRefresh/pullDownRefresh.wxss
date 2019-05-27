@@ -1,0 +1,68 @@
+@keyframes rolling {
+  0% {
+    transform: rotate(135deg);
+  }
+  100% {
+    transform: rotate(495deg);
+  }
+}
+@keyframes fadeout {
+  0% {
+    opacity: 1;
+    transform: rotate(135deg) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(135deg) scale(0);
+  }
+}
+.refresh-wrap {
+  position: fixed;
+  width: 42px;
+  height: 42px;
+  left: 50%;
+  margin-left: -21px;
+  top: -50px;
+  z-index: 999;
+  background-color: #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 6px 1px #ccc;
+  opacity: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.refresh-wrap.transition {
+  transition: top 0.3s ease-in-out, opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+.refresh-wrap.animation {
+  transition: top 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  animation: rolling 0.6s linear infinite;
+}
+.refresh-wrap.fadeout {
+  animation: fadeout 0.3s ease-in-out;
+}
+.refresh-wrap .refresh {
+  box-sizing: border-box;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 3px solid #000;
+  border-top-color: transparent !important;
+}
+.refresh-wrap.fadeout .refresh {
+  opacity: 0;
+}
+.wrap {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.wrap .intersection-dot {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  left: 0;
+  top: 0;
+  visibility: hidden;
+}

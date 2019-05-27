@@ -1,0 +1,14 @@
+.header {
+  font-size: 32rpx;
+  line-height: 1.2;
+  color: #333;
+  padding-left: 16rpx;
+  border-left: 10rpx solid #333;
+}
+.paragraph {
+  margin-top: 20rpx;
+  margin-bottom: 48rpx;
+  font-size: 28rpx;
+  line-height: 1.5;
+  color: #999;
+}

@@ -1,0 +1,154 @@
+// 文档：https://developers.weixin.qq.com/miniprogram/dev/framework/view/interactive-animation.html
+
+/* eslint-disable */
+function calcResistance(distExtra, distMax) {
+  return Math.min(1, distExtra / distMax / 1.2) * Math.min(distMax, distExtra)
+}
+
+function touchStart(e, ins) {
+  var dataset = e.instance.getDataset()
+  var state = e.instance.getState()
+  state.distMax = dataset.distMax
+  state.distThreshold = state.distMax * 0.75
+  state.reachTop = dataset.reachTop
+  state.status = state.status || "pending" // pending、pulling、releasing、refreshing
+
+  if (state.status === "pending" && state.reachTop) {
+    state.startPulling = true
+    state.pullStartX = e.touches[0].clientX
+    state.pullStartY = e.touches[0].clientY
+    state.distance = 0
+
+    state.component = state.component || ins.selectComponent(".refresh-wrap")
+    state.component.removeClass("transition")
+    state.component.removeClass("animation")
+    state.component.removeClass("fadeout")
+    state.component.setStyle({
+      top: (state.distance - 50) + "px",
+      opacity: 0,
+      transform: "rotate(0)",
+      "-webkit-transform": "rotate(0)"
+    })
+  }
+}
+
+function touchMove(e, ins) {
+  var state = e.instance.getState()
+
+  if (!state.startPulling || state.status === "refreshing") {
+    return true
+  }
+  state.pullMoveX = e.touches[0].clientX
+  state.pullMoveY = e.touches[0].clientY
+  if (state.status === "pending") {
+    state.status = "pulling"
+  }
+  var distExtraX = state.pullMoveX - state.pullStartX
+  var distExtraY = state.pullMoveY - state.pullStartY
+  if (distExtraY > 0 && Math.abs(distExtraY) >= Math.abs(distExtraX)) {
+    state.distance = calcResistance(distExtraY, state.distMax)
+    state.component.setStyle({
+      top: (state.distance - 50) + "px",
+      opacity: Math.min(1, state.distance / state.distThreshold),
+      transform: "rotate(" + (495 * state.distance / state.distMax) + "deg)",
+      "-webkit-transform": "rotate(" + (495 * state.distance / state.distMax) + "deg)"
+    })
+
+    if (state.status === "pulling" && state.distance > state.distThreshold) {
+      state.status = "releasing"
+    }
+    if (state.status === "releasing" && state.distance < state.distThreshold) {
+      state.status = "pulling"
+    }
+    return false
+  }
+  return true
+}
+
+function touchEnd(e, ins) {
+  var state = e.instance.getState()
+
+  if (!state.startPulling || state.status === "refreshing") {
+    return
+  }
+  state.startPulling = false
+  if (state.status === "releasing" && state.distance > state.distThreshold) {
+    state.status = "refreshing"
+    state.distance = state.distThreshold
+
+    state.component.addClass("animation")
+    state.component.setStyle({
+      top: (state.distance - 50) + "px",
+      opacity: Math.min(1, state.distance / state.distThreshold),
+    })
+
+    ins.triggerEvent("refresh")
+  } else {
+    reset(state)
+  }
+}
+
+function reset(state) {
+  state.status = "pending"
+  state.startPulling = false
+  state.distance = 0
+  state.component.addClass("transition")
+  state.component.setStyle({
+    top: (state.distance - 50) + "px",
+    opacity: 0,
+    transform: "rotate(0)",
+    "-webkit-transform": "rotate(0)"
+  })
+}
+
+function onRefreshed(newValue, oldValue, ins, itemIns) {
+  if (newValue) {
+    var state = itemIns.getState()
+    state.status = "pending"
+    state.startPulling = false
+
+    var component = state.component || ins.selectComponent(".refresh-wrap")
+    component.removeClass("animation")
+    component.addClass("fadeout")
+    component.setStyle({
+      top: (state.distance - 50) + "px",
+      opacity: 0,
+      transform: "scale(0)",
+      "-webkit-transform": "rotate(0)"
+    })
+  }
+}
+
+function onRefreshing(newValue, oldValue, ins, itemIns) {
+  if (newValue) {
+    var dataset = itemIns.getDataset()
+    var state = itemIns.getState()
+    state.distMax = state.distMax || dataset.distMax
+    state.distThreshold = state.distThreshold || state.distMax * 0.75
+
+    state.status = "refreshing"
+    state.distance = state.distThreshold
+    state.startPulling = false
+    state.component = state.component || ins.selectComponent(".refresh-wrap")
+
+    state.component.removeClass("transition")
+    state.component.removeClass("fadeout")
+    state.component.addClass("animation")
+    state.component.setStyle({
+      top: (state.distance - 50) + "px",
+      opacity: 1,
+      transition: "none",
+    })
+
+    ins.triggerEvent("refresh")
+  }
+}
+
+module.exports = {
+  touchStart: touchStart,
+  touchMove: touchMove,
+  touchEnd: touchEnd,
+  onRefreshed: onRefreshed,
+  onRefreshing: onRefreshing,
+}
+/* eslint-enable */

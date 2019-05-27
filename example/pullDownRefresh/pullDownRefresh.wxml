@@ -1,0 +1,8 @@
+<wxs module="m1" src="./pullDownRefresh.wxs"></wxs>
+<view class="refresh-wrap" style="{{backgroundColor ? 'background-color:' + backgroundColor + ';' : ''}}">
+  <view class="refresh" style="{{color ? 'border-color:' + color + ';' : ''}}"></view>
+</view>
+<view class="wrap" change:refreshed="{{m1.onRefreshed}}" refreshed="{{refreshed}}" change:refreshing="{{m1.onRefreshing}}" refreshing="{{refreshing}}" data-dist-max="{{distMax}}" data-reach-top="{{reachTop}}" bind:touchstart="{{m1.touchStart}}" bind:touchmove="{{m1.touchMove}}" bind:touchend="{{m1.touchEnd}}">
+  <view class="intersection-dot"></view>
+  <slot></slot>
+</view>
