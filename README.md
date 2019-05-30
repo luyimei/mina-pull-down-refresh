@@ -23,4 +23,4 @@
 将src目录中的自定义组件拷贝到你的项目中，用起来就行。需禁用小程序自身的enablePullDownRefresh功能。使用方法参考example目录中的小程序示例。
 
 ### 快速预览
-https://developers.weixin.qq.com/s/mOJubKmR7m8I
+https://developers.weixin.qq.com/s/ptJAJKmi7A8e
