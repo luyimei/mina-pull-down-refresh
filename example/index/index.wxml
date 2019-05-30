@@ -24,5 +24,7 @@
     <view class="paragraph">
       小程序版本要求2.4.4以上（含）。下拉刷新试试吧～
     </view>
+    <button catchtap='goToScrollView'>scrollView中使用例子</button>
+    <button style="margin-top: 20rpx;" catchtap='goToSwiper'>swiper+scrollView中使用例子</button>
   </view>
 </pullDownRefresh>

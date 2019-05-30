@@ -26,14 +26,4 @@ Page({
       }
     });
   },
-  goToScrollView() {
-    wx.navigateTo({
-      url: '/scrollView/scrollView',
-    })
-  },
-  goToSwiper() {
-    wx.navigateTo({
-      url: '/swiper/swiper',
-    })
-  }
 })
