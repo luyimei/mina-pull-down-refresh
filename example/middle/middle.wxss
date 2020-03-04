@@ -1,6 +1,5 @@
 page {
   height: 100%;
-  overflow: hidden;
 }
 .top {
   position: fixed;
