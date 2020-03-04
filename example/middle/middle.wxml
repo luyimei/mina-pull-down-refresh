@@ -1,0 +1,12 @@
+<!-- top是为了模拟固定在页面头部的区域，placeholder是为了补偿占用的高度 -->
+<view class="top">固定在头部的区域，背景是黄色</view>
+<view class="placeholder"></view>
+
+<pullDownRefresh class="refresh-wrap" refreshing="{{refreshing}}" refreshed="{{refreshed}}" bind:refresh="refresh">
+  <scroll-view class="container" scroll-y>
+    我是一个scroll-view
+    <view style='width: 100%; height: 400px; background-color: red;'></view>
+    <view style='width: 100%; height: 400px; background-color: green;'></view>
+    <view style='width: 100%; height: 400px; background-color: blue;'></view>
+  </scroll-view>
+</pullDownRefresh>

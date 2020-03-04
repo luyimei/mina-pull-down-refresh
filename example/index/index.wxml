@@ -26,5 +26,6 @@
     </view>
     <button catchtap='goToScrollView'>scrollView中使用例子</button>
     <button style="margin-top: 20rpx;" catchtap='goToSwiper'>swiper+scrollView中使用例子</button>
+    <button style="margin-top: 20rpx;" catchtap='goToMiddle'>页面中部使用的例子</button>
   </view>
 </pullDownRefresh>

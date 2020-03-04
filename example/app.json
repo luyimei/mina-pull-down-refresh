@@ -2,7 +2,8 @@
   "pages": [
     "index/index",
     "scrollView/scrollView",
-    "swiper/swiper"
+    "swiper/swiper",
+    "middle/middle"
   ],
   "window": {
     "backgroundTextStyle": "light",
